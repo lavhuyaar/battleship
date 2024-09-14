@@ -19,3 +19,6 @@ test("Position of vertical ship", () => expect(game.board[5][5].hits).toBe(3)); 
 test("Vertical ship sunk or not", () =>
   expect(game.board[5][5].isSunk()).toBe(true)); //Returns true since the vertical ship has been hit 3 times
 test("Position of overlapping ship", () => expect(game.board[1][3]).toBeNull()); //Returns null since overlapping ship is not placed
+
+game.resetShips()
+test('Reset ships', () => expect(game.board[5][5]).toBeNull())

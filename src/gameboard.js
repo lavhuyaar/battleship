@@ -1,6 +1,7 @@
 //Gameboard factory function
 export function gameboard() {
-  const board = Array.from({ length: 10 }, () => Array(10).fill(null)); //10x10 board
+  let board = Array.from({ length: 10 }, () => Array(10).fill(null)); //10x10 board
+  let ships = [];
 
   //Places ships horizontally or vertically on the given coordinates
   function placeShips(x, y, ship, isHorizontal) {
@@ -29,6 +30,7 @@ export function gameboard() {
         board[x + i][y] = ship;
       }
     }
+    ships.push(ship);
     return true;
   }
 
@@ -44,9 +46,20 @@ export function gameboard() {
     }
   }
 
+  function resetShips() {
+  board = Array.from({ length: 10 }, () => Array(10).fill(null));
+   ships = [];
+  }
+
   return {
-    board,
+    get board() {
+      return board;
+    },
+    get ships() {
+      return ships;
+    },
     placeShips,
     receiveAttack,
+    resetShips,
   };
 }
