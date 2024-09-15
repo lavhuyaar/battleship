@@ -14,29 +14,25 @@ export function createGame() {
 
   //Creates UI of Computer player's board
   function createComputerBoard() {
-    const div = document.querySelector(".first-board");
-    div.innerHTML = "";
-    const computerBoard = newGame.computerPlayer.gameboard.board;
+    const div = document.querySelector(".first-board"); //First-board div in the container div
+    div.innerHTML = ""; //Clears the previously displayed board (if existed)
+    const computerBoard = newGame.computerPlayer.gameboard.board; //Board of Computer player
 
+    //Nested Loop that creates a board of buttons using array board of Computer player
     for (let i = 0; i < computerBoard.length; i++) {
-      const row = document.createElement("div");
+      const row = document.createElement("div"); //Rows
       row.className = "computer-board-row";
       for (let j = 0; j < computerBoard[i].length; j++) {
-        const boardCell = document.createElement("button");
+        const boardCell = document.createElement("button"); //Cells (buttons) of rows
         boardCell.className = "computer-board-cell";
+        boardCell.setAttribute("computer-cell-index", `${i},${j}`); //This is done so that these cells could be accessed easily
         if (computerBoard[i][j] !== null && computerBoard[i][j] !== "miss") {
+          //If there is a ship
           boardCell.classList.add("ship");
           boardCell.style.backgroundColor = "royalblue";
         }
-        if (boardCell.classList.contains("miss")) {
-          boardCell.style.backgroundColor = "green";
-        }
-        if (boardCell.classList.contains("hit")) {
-          boardCell.style.backgroundColor = "red";
-        }
 
         row.append(boardCell);
-        checkShips(newGame.computerPlayer);
       }
       div.append(row);
     }
@@ -44,89 +40,109 @@ export function createGame() {
 
   //Creates UI of Human player's board
   function createHumanBoard() {
-    const div = document.querySelector(".second-board");
-    div.innerHTML = "";
-    const humanBoard = newGame.humanPlayer.gameboard.board;
+    const div = document.querySelector(".second-board"); //Second-board div in the container div
+    div.innerHTML = ""; //Clears the previously displayed board (if existed)
+    const humanBoard = newGame.humanPlayer.gameboard.board; //Board of Human player
 
+    //Nested Loop that creates a board of buttons using array board of Human player
     for (let i = 0; i < humanBoard.length; i++) {
-      const row = document.createElement("div");
+      const row = document.createElement("div"); //Rows
       row.className = "human-board-row";
       for (let j = 0; j < humanBoard[i].length; j++) {
-        const boardCell = document.createElement("button");
+        const boardCell = document.createElement("button"); //Cells (buttons) of rows
         boardCell.className = "human-board-cell";
         if (humanBoard[i][j] !== null && humanBoard[i][j] !== "miss") {
           boardCell.classList.add("ship");
-          // boardCell.style.backgroundColor = "royalblue";
         }
-        if (humanBoard[i][j] === "miss") {
-          boardCell.classList.add("miss");
-        }
-
         row.append(boardCell);
-        clickButton(boardCell, i, j);
+        humanClick(boardCell, i, j);
+        /*Click event listeners on the cell, passes the value of 'i', 'j' and cell,
+        so that the Human board could immediately update after cell is clicked*/
       }
       div.append(row);
     }
   }
 
-  function clickButton(cell, x, y) {
+  /*Adds click event listeners on the buttons (cells) of Human board; also makes sure that the buttons (cells)
+  of Computer board are clicked randomly, immediately after the User clicks any button on Human board*/
+  function humanClick(cell, x, y) {
     cell.addEventListener("click", () => {
       if (newGame.humanPlayer.gameboard.receiveAttack(x, y)) {
-        cell.style.backgroundColor = "green";
-        console.log("hit");
+        //If there is a ship, then the cell turns green, indicating that we hit the ship
+        cell.style.backgroundColor = "green"; //REMINDER - CHANGE THE COLOR
       } else {
-        cell.style.backgroundColor = "red";
-        console.log("miss");
+        cell.style.backgroundColor = "red"; //Else the cell turns red, indicating that we missed the ship (REMINDER - CHANGE THE COLOR)
       }
-      cell.disabled = true;
-      checkShips(newGame.humanPlayer);
+      cell.disabled = true; //And the cell gets disabled, so it can't be clicked again
+
+      computerClick(); //Following the user click, the automatic click on Computer board takes place
+
+      if (checkShips(newGame.humanPlayer)) {
+        //If all the ships of Human board are sunk first (all ships are sunk by User first)
+        alert("human won"); //Human wins (REMINDER - CHANGE ALERT WITH PROBABLY A MESSAGE DIV)
+      } else if (checkShips(newGame.computerPlayer)) {
+        //If all the ships of Computer board are sunk first (all ships are sunk by Computer first)
+        alert("computer won"); //Computer wins (REMINDER - CHANGE ALERT WITH PROBABLY A MESSAGE DIV)
+      }
     });
   }
 
-  // function autoClickButton() {
-
-  //   let x = Math.floor(Math.random * 10)
-  //   let y = Math.floor(Math.random * 10)
-  //   if(newGame.computerPlayer.gameboard.receiveAttack(x, y)) {
-  //       const rows = document.querySelectorAll(".computer-board-row")
-  //       rows.forEach((row) => {
-  //         console.log(row[x][y])
-  //       })
-  //   }
-  //   else {cell.classList.add('miss')}
-  //   createComputerBoard()
-  // }
-
   //Checks whether all the ships of player has sunk or not
   function checkShips(player) {
-    if ((player = newGame.humanPlayer)) {
-      let ships = player.gameboard.ships;
-      let i = 0;
-      while (i < ships.length) {
-        if (ships[i].isSunk() === false) {
-          return; //If not, then returns
+    //Takes player (either Human Player or Computer Player)
+    let ships = player.gameboard.ships; //Access ships array of the player
+    let i = 0;
+    //Loops through the ships array
+    while (i < ships.length) {
+      if (!ships[i].isSunk()) {
+        return; //If all ships of the player are not sunk, the loop is breaked
+      } else i += 1; //If ship at ship[i] is sunk, then the loop goes on
+    }
+
+    /*If all ships of the player are sunk, then all the cells (buttons) of both Human board and Computer board are disabled,
+      ensuring that no buttons could be pressed after the game is over*/
+    document.querySelectorAll(".human-board-cell").forEach((cell) => {
+      cell.disabled = true;
+    });
+    document.querySelectorAll(".computer-board-cell").forEach((cell) => {
+      cell.disabled = true;
+    });
+
+    return true; //At last, returns true
+    //This helps in the humanClick function above
+  }
+
+  //Ensures the automated click on Computer board (technically it ain't a click lol)
+  function computerClick() {
+    let placed = false;
+    while (!placed) {
+      //This loop makes sure that the click is not skipped due to overlapping
+      //If overlapping happens, the loop is called again with different coordinates till the click happens
+      let x = Math.floor(Math.random() * 10); //Random X Coordinate
+      let y = Math.floor(Math.random() * 10); //Random Y Coordinate
+
+      let cell = document.querySelector(
+        //'computer-cell-index' attribute is added when the Computer board is created
+        `.computer-board-cell[computer-cell-index="${x},${y}"]` //This attribute helps accessing the cell which needs to be changed
+      );
+
+      //If cell exists and is not disabled i.e. not previously clicked
+      if (cell && !cell.disabled) {
+        const attackCell = newGame.computerPlayer.gameboard.receiveAttack(x, y);
+
+        if (attackCell) {
+          //If the click happens on a ship
+          cell.style.backgroundColor = "green"; //The cell turns to green color, indicating that the ship is hit (REMINDER - CHANGE THE COLOR)
         }
-        if (ships[i].isSunk() === true) {
-          i += 1;
+        if (!attackCell) {
+          //If the click does not happen on a ship i,e. it's miss
+          cell.style.backgroundColor = "red"; //The cell turns to red color, indicating that the ship is missed (REMINDER - CHANGE THE COLOR)
         }
+
+        //After the cell is clicked, it is disabled and placed is changed to true, ending the loop
+        cell.disabled = true;
+        placed = true;
       }
-      console.log("human ship sunk");
-      const cells = document.querySelectorAll(".human-board-cell")
-      cells.forEach((cell) => {
-        cell.disabled = true
-      })
-    } else if ((player = newGame.computerPlayer)) {
-      let ships = player.gameboard.ships;
-      let i = 0;
-      while (i < ships.length) {
-        if (ships[i].isSunk() === false) {
-          return; //If not, then returns
-        }
-        if (ships[i].isSunk() === true) {
-          i += 1;
-        }
-      }
-      console.log("computer ship sunk"); //If yes, then log 'sunk'
     }
   }
 
@@ -135,7 +151,8 @@ export function createGame() {
     initializeGame,
     createComputerBoard,
     createHumanBoard,
-    clickButton,
     checkShips,
+    humanClick,
+    computerClick,
   };
 }
