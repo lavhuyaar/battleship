@@ -1,0 +1,54 @@
+@media only screen and (max-width: 1130px) {
+  .human-board-cell,
+  .computer-board-cell {
+    height: 40px;
+    width: 40px;
+  }
+}
+
+@media only screen and (max-width: 940px) {
+  .human-board-cell,
+  .computer-board-cell {
+    height: 35px;
+    width: 35px;
+  }
+}
+
+@media only screen and (max-width: 850px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  body {
+    height: fit-content;
+  }
+
+  .human-board-cell,
+  .computer-board-cell {
+    height: 45px;
+    width: 45px;
+  }
+  .main-heading {
+    margin-top: 20px;
+  }
+}
+
+@media only screen and (max-width: 520px) {
+  .human-board-cell,
+  .computer-board-cell {
+    height: 35px;
+    width: 35px;
+  }
+}
+
+@media only screen and (max-width: 420px) {
+  .human-board-cell,
+  .computer-board-cell {
+    height: 30px;
+    width: 30px;
+  }
+  .buttons {
+    gap: 50px;
+  }
+}

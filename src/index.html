@@ -1,17 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Battleship</title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="first-board"></div>
-        <div class="second-board"></div>
+      <h1 class="main-heading">Battleship</h1>
+      <div id="computer-board-container">
+        <h2 class="computer-board-heading">Computer's board</h2>
+        <div class="computer-board"></div>
+      </div>
+      <div id="human-board-container">
+        <h2 class="human-board-heading">Your board</h2>
+        <div class="human-board"></div>
+      </div>
+
+      <div class="buttons">
+        <button id="start-game-btn">Start Game</button>
+        <button id="randomize-btn">Randomize</button>
+        <button id="reset-game-btn">Reset Game</button>
+      </div>
     </div>
-    <button id="start-game-btn">Start Game</button>
-    <button id="randomize-btn">Randomize</button>
-    <button id="reset-game-btn">Reset Game</button>
-</body>
+  </body>
 </html>

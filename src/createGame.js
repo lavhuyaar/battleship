@@ -16,7 +16,7 @@ export function createGame() {
 
   //Creates UI of Computer player's board
   function createComputerBoard() {
-    const div = document.querySelector(".first-board"); //First-board div in the container div
+    const div = document.querySelector(".computer-board"); //First-board div in the container div
     div.innerHTML = ""; //Clears the previously displayed board (if existed)
     const computerBoard = newGame.computerPlayer.gameboard.board; //Board of Computer player
 
@@ -42,7 +42,7 @@ export function createGame() {
 
   //Creates UI of Human player's board
   function createHumanBoard() {
-    const div = document.querySelector(".second-board"); //Second-board div in the container div
+    const div = document.querySelector(".human-board"); //Second-board div in the container div
     div.innerHTML = ""; //Clears the previously displayed board (if existed)
     const humanBoard = newGame.humanPlayer.gameboard.board; //Board of Human player
 

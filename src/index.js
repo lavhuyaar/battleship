@@ -1,4 +1,5 @@
 import "./style.css";
+import "./responsive.css";
 import { createGame } from "./createGame";
 
 const Game = createGame();
@@ -14,8 +15,9 @@ randomizeBtn.addEventListener("click", async () => {
 const startGameBtn = document.getElementById("start-game-btn");
 startGameBtn.addEventListener("click", () => {
   Game.initializeGame();
-  startGameBtn.disabled = true;
-  document.getElementById("randomize-btn").disabled = true;
+  startGameBtn.style.display = "none";
+  randomizeBtn.style.display = "none";
+  resetGameBtn.style.display = "block";
   resetGameBtn.disabled = false;
 });
 
@@ -23,8 +25,9 @@ const resetGameBtn = document.getElementById("reset-game-btn");
 resetGameBtn.disabled = true;
 resetGameBtn.addEventListener("click", () => {
   Game.resetGame();
-  startGameBtn.disabled = false;
-  randomizeBtn.disabled = false;
+  startGameBtn.style.display = "block";
+  randomizeBtn.style.display = "block";
   resetGameBtn.disabled = true;
+  resetGameBtn.style.display = "none";
   Game.initializeGame();
 });
