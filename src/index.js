@@ -1,11 +1,11 @@
 import "./style.css";
 import { createGame } from "./createGame";
 
-const Game = createGame()
-Game.initializeGame()
+const Game = createGame();
+Game.initializeGame();
 
 const randomizeBtn = document.getElementById("randomize-btn");
-randomizeBtn.addEventListener("click", () => {
+randomizeBtn.addEventListener("click", async () => {
   Game.newGame.computerPlayer.gameboard.resetShips();
   Game.newGame.setComputerShips();
   Game.createComputerBoard();
@@ -13,16 +13,18 @@ randomizeBtn.addEventListener("click", () => {
 
 const startGameBtn = document.getElementById("start-game-btn");
 startGameBtn.addEventListener("click", () => {
-  Game.initializeGame()
+  Game.initializeGame();
   startGameBtn.disabled = true;
   document.getElementById("randomize-btn").disabled = true;
+  resetGameBtn.disabled = false;
 });
 
-// let x = Math.floor(Math.random * 10)
-//     let y = Math.floor(Math.random * 10)
-//     if(Game.newGame.computerPlayer.gameboard.receiveAttack(x, y)) {
-//         const rows = document.querySelectorAll(".computer-board-row")
-//         rows.forEach((row) => {
-//           console.log(row[x][y])
-//         })
-//     }
+const resetGameBtn = document.getElementById("reset-game-btn");
+resetGameBtn.disabled = true;
+resetGameBtn.addEventListener("click", () => {
+  Game.resetGame();
+  startGameBtn.disabled = false;
+  randomizeBtn.disabled = false;
+  resetGameBtn.disabled = true;
+  Game.initializeGame();
+});

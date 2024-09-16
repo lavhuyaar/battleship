@@ -3,6 +3,7 @@ import { game } from "./game";
 //Creates a new game
 export function createGame() {
   let newGame = game(); //New Game
+  let gameStart = false; //Indicates that the game is not started yet
 
   newGame.setComputerShips(); //Place ships randomly on the board of Computer player
   newGame.setHumanShips(); //Place ships randomly on the board of Human player
@@ -10,6 +11,7 @@ export function createGame() {
   function initializeGame() {
     createComputerBoard(); //Creates UI of Computer player's board
     createHumanBoard(); //Creates UI of Human player's board
+    gameStart = true; //Game started
   }
 
   //Creates UI of Computer player's board
@@ -55,9 +57,13 @@ export function createGame() {
           boardCell.classList.add("ship");
         }
         row.append(boardCell);
-        humanClick(boardCell, i, j);
+        if (gameStart === true) {
+          //If the game is initialized/started
+          humanClick(boardCell, i, j);
+        }
         /*Click event listeners on the cell, passes the value of 'i', 'j' and cell,
-        so that the Human board could immediately update after cell is clicked*/
+        so that the Human board could immediately update after cell is clicked
+        Also prevents clicking before game is started*/
       }
       div.append(row);
     }
@@ -74,7 +80,7 @@ export function createGame() {
         cell.style.backgroundColor = "red"; //Else the cell turns red, indicating that we missed the ship (REMINDER - CHANGE THE COLOR)
       }
       cell.disabled = true; //And the cell gets disabled, so it can't be clicked again
-
+      
       computerClick(); //Following the user click, the automatic click on Computer board takes place
 
       if (checkShips(newGame.humanPlayer)) {
@@ -84,6 +90,7 @@ export function createGame() {
         //If all the ships of Computer board are sunk first (all ships are sunk by Computer first)
         alert("computer won"); //Computer wins (REMINDER - CHANGE ALERT WITH PROBABLY A MESSAGE DIV)
       }
+      document.getElementById('reset-game-btn').disabled = false;
     });
   }
 
@@ -146,13 +153,28 @@ export function createGame() {
     }
   }
 
+  //Resets game
+  function resetGame() {
+    gameStart = false; //Indicates that the game is stopped
+
+    newGame.humanPlayer.gameboard.resetShips(); //Resets the ships of Human board
+    newGame.setHumanShips(); //Places ships on the new coordinates
+    createHumanBoard(); //Displays Human board
+
+    newGame.computerPlayer.gameboard.resetShips(); //Resets the ships of Computer board
+    newGame.setComputerShips(); //Places ships on the new coordinates
+    createComputerBoard(); //Displays Computer board
+  }
+
   return {
     newGame,
+    gameStart,
     initializeGame,
     createComputerBoard,
     createHumanBoard,
     checkShips,
     humanClick,
     computerClick,
+    resetGame,
   };
 }
