@@ -1,5 +1,5 @@
 import { player } from "./player";
-import ship from "./ship";
+import { ship } from "./ship";
 
 //Game factory function that starts the game
 export function game() {
@@ -17,7 +17,7 @@ export function game() {
       placed = player.gameboard.placeShips(x, y, ship(shipSize), isHorizontal);
     }
   }
-  
+
   //Places 6 total no. of ships on the board of Human player
   function setHumanShips() {
     for (let i = 2; i <= 6; i++) {

@@ -1,5 +1,5 @@
 import { gameboard } from "../gameboard";
-import ship from "../ship";
+import { ship } from "../ship";
 
 const game = gameboard(); //Mock gameboard
 
@@ -20,5 +20,5 @@ test("Vertical ship sunk or not", () =>
   expect(game.board[5][5].isSunk()).toBe(true)); //Returns true since the vertical ship has been hit 3 times
 test("Position of overlapping ship", () => expect(game.board[1][3]).toBeNull()); //Returns null since overlapping ship is not placed
 
-game.resetShips()
-test('Reset ships', () => expect(game.board[5][5]).toBeNull())
+game.resetShips();
+test("Reset ships", () => expect(game.board[5][5]).toBeNull()); //Returns null; ALso leads to failure of other tests (which ironically tells that the function is working xd)

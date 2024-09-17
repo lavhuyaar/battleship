@@ -1,4 +1,4 @@
-import ship from "../ship";
+import { ship } from "../ship";
 
 const Ship = ship(3); //Ship object with the length of 3
 Ship.hit(); //First hit

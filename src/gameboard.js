@@ -46,9 +46,10 @@ export function gameboard() {
     }
   }
 
+  //Resets the board and ships of gameboard
   function resetShips() {
-  board = Array.from({ length: 10 }, () => Array(10).fill(null));
-   ships = [];
+    board = Array.from({ length: 10 }, () => Array(10).fill(null));
+    ships = [];
   }
 
   return {

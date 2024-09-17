@@ -1,5 +1,5 @@
 //Ship factory function
-function ship(length) {
+export function ship(length) {
   return {
     length, //Length of the ship
     hits: 0, //No. of hits
@@ -13,5 +13,3 @@ function ship(length) {
     },
   };
 }
-
-module.exports = ship;

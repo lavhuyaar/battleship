@@ -1,5 +1,5 @@
 import { player } from "../player";
-import ship from "../ship";
+import { ship } from "../ship";
 
 const players = player(); //Players factory function
 const human = players.humanPlayer(); //Human One
