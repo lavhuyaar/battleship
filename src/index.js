@@ -31,3 +31,21 @@ resetGameBtn.addEventListener("click", () => {
   resetGameBtn.style.display = "none";
   Game.initializeGame();
 });
+
+const OKBtn = document.getElementById('ok-btn')
+OKBtn.addEventListener('click', () => {
+  document.getElementById('message-container').style.display = 'none';
+  Game.resetGame();
+  startGameBtn.style.display = "block";
+  randomizeBtn.style.display = "block";
+  resetGameBtn.disabled = true;
+  resetGameBtn.style.display = "none";
+  Game.initializeGame();
+})
+
+const cancelBtn = document.getElementById('cancel-btn')
+cancelBtn.addEventListener('click', () => {
+  document.getElementById('message-container').style.display = 'none';
+  resetGameBtn.style.display = 'block';
+  resetGameBtn.disabled = false;
+})
