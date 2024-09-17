@@ -93,6 +93,15 @@ h2 {
   background-color: #3f3f3f;
   border: none;
   color: #8b8b8b;
+  cursor: pointer;
+}
+
+.buttons button:hover {
+  background-color: #565454;
+}
+
+.message-buttons button:hover {
+  background-color: #565454;
 }
 
 /*Buttons div*/
