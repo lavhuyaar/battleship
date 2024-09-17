@@ -75,34 +75,35 @@ export function createGame() {
     cell.addEventListener("click", () => {
       if (newGame.humanPlayer.gameboard.receiveAttack(x, y)) {
         //If there is a ship, then the cell turns green, indicating that we hit the ship
-        cell.style.backgroundColor = "green"; //REMINDER - CHANGE THE COLOR
+        cell.style.backgroundColor = "royalblue"; //REMINDER - CHANGE THE COLOR
+        cell.innerText = "X"; //Indicates that ship is hit
       } else {
-        cell.style.backgroundColor = "red"; //Else the cell turns red, indicating that we missed the ship (REMINDER - CHANGE THE COLOR)
+        cell.innerText = "•"; //Indicates that ship is missed
       }
       cell.disabled = true; //And the cell gets disabled, so it can't be clicked again
-      
+
       computerClick(); //Following the user click, the automatic click on Computer board takes place
 
-      if (checkShips(newGame.humanPlayer)) {
+      if (checkWinner(newGame.humanPlayer)) {
         //If all the ships of Human board are sunk first (all ships are sunk by User first)
         alert("human won"); //Human wins (REMINDER - CHANGE ALERT WITH PROBABLY A MESSAGE DIV)
-      } else if (checkShips(newGame.computerPlayer)) {
+      } else if (checkWinner(newGame.computerPlayer)) {
         //If all the ships of Computer board are sunk first (all ships are sunk by Computer first)
         alert("computer won"); //Computer wins (REMINDER - CHANGE ALERT WITH PROBABLY A MESSAGE DIV)
       }
-      document.getElementById('reset-game-btn').disabled = false;
+      document.getElementById("reset-game-btn").disabled = false;
     });
   }
 
   //Checks whether all the ships of player has sunk or not
-  function checkShips(player) {
+  function checkWinner(player) {
     //Takes player (either Human Player or Computer Player)
     let ships = player.gameboard.ships; //Access ships array of the player
     let i = 0;
     //Loops through the ships array
     while (i < ships.length) {
       if (!ships[i].isSunk()) {
-        return; //If all ships of the player are not sunk, the loop is breaked
+        return; //If all ships of the player are not sunk, the loop breaks
       } else i += 1; //If ship at ship[i] is sunk, then the loop goes on
     }
 
@@ -139,11 +140,12 @@ export function createGame() {
 
         if (attackCell) {
           //If the click happens on a ship
-          cell.style.backgroundColor = "green"; //The cell turns to green color, indicating that the ship is hit (REMINDER - CHANGE THE COLOR)
+          cell.style.backgroundColor = "royalblue"; //The cell turns to green color, indicating that the ship is hit (REMINDER - CHANGE THE COLOR)
+          cell.innerText = "X"; //Indicates that ship is hit
         }
         if (!attackCell) {
           //If the click does not happen on a ship i,e. it's miss
-          cell.style.backgroundColor = "red"; //The cell turns to red color, indicating that the ship is missed (REMINDER - CHANGE THE COLOR)
+          cell.innerText = "•"; //Indicates that ship is missed
         }
 
         //After the cell is clicked, it is disabled and placed is changed to true, ending the loop
@@ -172,7 +174,7 @@ export function createGame() {
     initializeGame,
     createComputerBoard,
     createHumanBoard,
-    checkShips,
+    checkWinner,
     humanClick,
     computerClick,
     resetGame,
