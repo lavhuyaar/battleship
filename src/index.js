@@ -43,7 +43,6 @@ OKBtn.addEventListener("click", () => {
   Game.resetGame();
   startGameBtn.style.display = "block";
   randomizeBtn.style.display = "block";
-  resetGameBtn.disabled = true;
   resetGameBtn.style.display = "none";
   Game.initializeGame();
 });
@@ -52,6 +51,5 @@ OKBtn.addEventListener("click", () => {
 const cancelBtn = document.getElementById("cancel-btn");
 cancelBtn.addEventListener("click", () => {
   document.getElementById("message-container").style.display = "none";
-  resetGameBtn.style.display = "block";
   resetGameBtn.disabled = false;
 });

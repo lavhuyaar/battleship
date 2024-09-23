@@ -89,13 +89,13 @@ export function createGame() {
         document.querySelector(".message").innerText =
           "Congratulations! You won! How about another win?"; //Human wins; Message pops up
         document.getElementById("message-container").style.display = "grid";
-        document.getElementById("reset-game-btn").style.display = "none";
+        document.getElementById("reset-game-btn").disabled = true;
       } else if (checkWinner(newGame.computerPlayer)) {
         //If all the ships of Computer board are sunk first (all ships are sunk by Computer first)
         document.querySelector(".message").innerText =
           "Oops! You lost! Get back at the Computer, will you?"; //Computer wins; Message pops up
         document.getElementById("message-container").style.display = "grid";
-        document.getElementById("reset-game-btn").style.display = "none";
+        document.getElementById("reset-game-btn").disabled = true;
       }
     });
   }
